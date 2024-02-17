@@ -4,6 +4,8 @@
 
 #define MAX 100
 
+// Confirm if we need to implement Stack using Structure or dynamic array.
+
 char stack[MAX]; // can make it integer array also
 char infix[MAX];
 char postfix[MAX];

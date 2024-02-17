@@ -1,115 +1,99 @@
 #include<stdio.h>
+#include<stdlib.h>
 
-#define MAX_TERMS 100
+#define INITIAL_SIZE 5
 
-typedef struct
-{
-    int row;
-    int col;
-    int value;
-} Term;
+int front = -1;
+int rear = -1;
+int* Queue = NULL;
+int size = 0;
 
-void transpose(Term a[], Term b[]){
-    int currentb;
-    int numTerms = a[0].value;
-    int numCols = a[0].col;
+void enqueue(int val);
+int dequeue();
+void display();
+void peek();
 
-    b[0].col = a[0].col;
-    b[0].row = a[0].row;
-    b[0].value = a[0].value;
+int main() {
+    enqueue(3);
+    enqueue(24);
+    enqueue(11);
+    enqueue(7);
+    enqueue(63);
+    enqueue(89);
+    enqueue(45);
+    dequeue();
+    dequeue();
+    dequeue();
+    enqueue(111);
+    enqueue(222);
+    enqueue(333);
 
-    if(numTerms>0){
-        currentb=1;
-        for(int i =0; i<numCols; i++){
-            for(int j=1; j<=numTerms;j++){
-                if(a[j].col==i){
-                    b[currentb].row= a[j].col;
-                    b[currentb].col= a[j].row;
-                    b[currentb].value= a[j].value;
-                    currentb++;
-                }
-            }
+    display();
 
-        }
-    }
-
-
-}
-
-void fastTranspose(Term a[], Term b[]){
-    int numTerms = a[0].value;
-    int numCols = a[0].col;
-
-    int colTerms[numCols];
-    int startingPos[numCols];
-
-    b[0].row = a[0].col;
-    b[0].col  = a[0].row;
-    b[0].value = a[0].value;
-
-    if(numTerms>0){
-        for(int i=0;i<numCols;i++){
-            colTerms[i]=0;
-        }
-
-        for(int i=1;i<=numTerms;i++){
-            colTerms[a[i].col]++;
-        }
-
-        startingPos[0]=1;
-
-        for(int i =1; i<numCols; i++){
-            startingPos[i] = startingPos[i-1] + colTerms[i-1];
-        }
-
-        for(int i=1;i<=numTerms;i++){
-            int currentCol = a[i].col;
-            int newPosition = startingPos[currentCol]++;
-
-            b[newPosition].row = a[i].col;
-            b[newPosition].col = a[i].row;
-            b[newPosition].value = a[i].value;
-        }
-
-
-    }
-
-}
-
-
-
-
-void display(Term a[]){
-     for(int i =1; i<=a[0].value;i++){
-        printf("%d %d %d\n", a[i].row, a[i].col, a[i].value);
-    }
-}
-
-int main(){
-
-    Term a[MAX_TERMS], b[MAX_TERMS];
-
-    printf("Enter total rows: ");
-    scanf("%d", &a[0].row);
-
-    printf("Enter total cols: ");
-    scanf("%d", &a[0].col);
-
-    printf("Enter total non zero elements: ");
-    scanf("%d", &a[0].value);
-
-    printf("Enter (row,col,value)\n");
-    for(int i =1; i<=a[0].value;i++){
-        scanf("%d %d %d", &a[i].row, &a[i].col, &a[i].value);
-    }
-
-    printf("Original Matrix\n");
-    display(a);
-    // transpose(a ,b);
-    fastTranspose(a,b);
-    printf("After Transpose\n");
-    display(b);
-
+    free(Queue); // Free dynamically allocated memory
 
     return 0;
+}
+
+void enqueue(int val) {
+    if (front == -1 && rear == -1) {
+        front = 0;
+        rear = 0;
+        size = INITIAL_SIZE;
+        Queue = (int*)malloc(size * sizeof(int));
+        if (Queue == NULL) {
+            printf("Memory allocation failed\n");
+            exit(EXIT_FAILURE);
+        }
+        Queue[rear] = val;
+    } else if ((rear + 1) % size == front) {
+        printf("Queue is full\n");
+        // dynamically reallocate new one (double the size)
+        size *= 2;
+        Queue = (int*)realloc(Queue, size * sizeof(int));
+        if (Queue == NULL) {
+            printf("Memory reallocation failed\n");
+            exit(EXIT_FAILURE);
+        }
+        rear = (rear + 1) % size;
+        Queue[rear] = val;
+    } else {
+        rear = (rear + 1) % size;
+        Queue[rear] = val;
+    }
+}
+
+int dequeue() {
+    if (front == -1 && rear == -1) {
+        printf("Queue is Empty\n");
+    } else if (front == rear) {
+        int del = Queue[front];
+        front = -1;
+        rear = -1;
+        free(Queue);
+        return del;
+    } else {
+        int del = Queue[front];
+        front = (front + 1) % size;
+        return del;
+    }
+}
+
+void display() {
+    int i = front;
+    printf("Queue is: ");
+    while (i != rear) {
+        printf("%d ", Queue[i]);
+        i = (i + 1) % size;
+    }
+    printf("%d ", Queue[rear]);
+    printf("\n");
+}
+
+void peek() {
+    if (front == -1 && rear == -1) {
+        printf("Queue is Empty");
+    } else {
+        printf("%d ", Queue[front]);
+    }
 }

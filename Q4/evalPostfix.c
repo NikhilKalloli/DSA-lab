@@ -4,7 +4,7 @@
 
 #define MAX 100
 
-int stack[MAX]; // can make it integer array also
+int stack[MAX]; 
 char infix[MAX];
 char postfix[MAX];
 

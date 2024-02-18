@@ -1,99 +1,106 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-#define INITIAL_SIZE 5
+typedef struct Node
+{
+    int coeff;
+    int exp;
+    struct Node *next;
+} node;
 
-int front = -1;
-int rear = -1;
-int* Queue = NULL;
-int size = 0;
+void push(node **head, int coeff, int exp)
+{
+    node *newNode = (node *)malloc(sizeof(node));
+    newNode->coeff = coeff;
+    newNode->exp = exp;
+    newNode->next = NULL;
 
-void enqueue(int val);
-int dequeue();
-void display();
-void peek();
+    if (*head == NULL)
+    {
+        *head = newNode;
+        return;
+    }
+    node *curr = *head;
+    while (curr->next != NULL)
+    {
+        curr = curr->next;
+    }
+    curr->next = newNode;
+}
 
-int main() {
-    enqueue(3);
-    enqueue(24);
-    enqueue(11);
-    enqueue(7);
-    enqueue(63);
-    enqueue(89);
-    enqueue(45);
-    dequeue();
-    dequeue();
-    dequeue();
-    enqueue(111);
-    enqueue(222);
-    enqueue(333);
+void read(node **p)
+{
+    printf("Enter total number of terms: ");
+    int terms;
+    scanf("%d", &terms);
 
-    display();
+    for (int i = 0; i < terms; i++)
+    {
+        int coeff, exp;
+        scanf("%d", &coeff);
+        scanf("%d", &exp);
+        push(p, coeff, exp);
+    }
+}
 
-    free(Queue); // Free dynamically allocated memory
+void solve(node *p1, node *p2, node **ans)
+{
+    while (p1 != NULL && p2 != NULL)
+    {
+        if (p1->exp > p2->exp)
+        {
+            push(ans, p1->coeff, p1->exp);
+            p1 = p1->next;
+        }
+        else if (p1->exp < p2->exp)
+        {
+            push(ans, p2->coeff, p2->exp);
+            p2 = p2->next;
+        }
+        else
+        {
+            push(ans, (p2->coeff + p1->coeff), p2->exp);
+            p2 = p2->next;
+            p1 = p1->next;
+        }
+    }
+    while (p1 != NULL)
+    {
+        push(ans, p1->coeff, p1->exp);
+        p1 = p1->next;
+    }
+    while (p2 != NULL)
+    {
+        push(ans, p2->coeff, p2->exp);
+        p2 = p2->next;
+    }
+}
+
+void display(node *head)
+{
+    node *curr = head;
+    while (curr != NULL)
+    {
+        printf("%dx^%d+", curr->coeff, curr->exp);
+        curr = curr->next;
+    }
+    printf("0\n");
+}
+
+int main()
+{
+    node *p1 = NULL;
+    node *p2 = NULL;
+    node *ans = NULL;
+
+    read(&p1);
+    read(&p2);
+    display(p1);
+    display(p2);
+
+    solve(p1, p2, &ans);
+    display(ans);
+
 
     return 0;
-}
-
-void enqueue(int val) {
-    if (front == -1 && rear == -1) {
-        front = 0;
-        rear = 0;
-        size = INITIAL_SIZE;
-        Queue = (int*)malloc(size * sizeof(int));
-        if (Queue == NULL) {
-            printf("Memory allocation failed\n");
-            exit(EXIT_FAILURE);
-        }
-        Queue[rear] = val;
-    } else if ((rear + 1) % size == front) {
-        printf("Queue is full\n");
-        // dynamically reallocate new one (double the size)
-        size *= 2;
-        Queue = (int*)realloc(Queue, size * sizeof(int));
-        if (Queue == NULL) {
-            printf("Memory reallocation failed\n");
-            exit(EXIT_FAILURE);
-        }
-        rear = (rear + 1) % size;
-        Queue[rear] = val;
-    } else {
-        rear = (rear + 1) % size;
-        Queue[rear] = val;
-    }
-}
-
-int dequeue() {
-    if (front == -1 && rear == -1) {
-        printf("Queue is Empty\n");
-    } else if (front == rear) {
-        int del = Queue[front];
-        front = -1;
-        rear = -1;
-        free(Queue);
-        return del;
-    } else {
-        int del = Queue[front];
-        front = (front + 1) % size;
-        return del;
-    }
-}
-
-void display() {
-    int i = front;
-    printf("Queue is: ");
-    while (i != rear) {
-        printf("%d ", Queue[i]);
-        i = (i + 1) % size;
-    }
-    printf("%d ", Queue[rear]);
-    printf("\n");
-}
-
-void peek() {
-    if (front == -1 && rear == -1) {
-        printf("Queue is Empty");
-    } else {
-        printf("%d ", Queue[front]);
-    }
 }

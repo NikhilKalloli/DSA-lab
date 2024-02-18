@@ -50,6 +50,7 @@ tree_ptr insert(tree_ptr temp , int key){
     else if(key > temp->data){
         temp->right_child = insert(temp->right_child, key);
     }
+    return temp;
 }
 
 int main(){

@@ -51,7 +51,6 @@ void display(){
         }
     }
     printf("\n");
-
 }
 
 

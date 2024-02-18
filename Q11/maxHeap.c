@@ -32,12 +32,6 @@ tree_ptr insert(tree_ptr root, int value) {
     return root;
 }
 
-// Function to find the node with the maximum value in a max heap
-tree_ptr findMaxNode(tree_ptr root) {
-    if (root == NULL || root->right == NULL)
-        return root;
-    return findMaxNode(root->right);
-}
 
 // Function to delete the maximum value node from the max heap
 tree_ptr deleteMax(tree_ptr root) {

@@ -3,9 +3,6 @@
 #include <string.h>
 
 #define MAX 100
-// Confirm if we need to implement Stack using Structure or dynamic array.
-
-
 
 int stack[MAX]; 
 int top = -1;

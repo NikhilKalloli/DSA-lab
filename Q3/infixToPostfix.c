@@ -4,9 +4,8 @@
 
 #define MAX 100
 
-// Confirm if we need to implement Stack using Structure or dynamic array.
 
-char stack[MAX]; // can make it integer array also
+char stack[MAX]; 
 char infix[MAX];
 char postfix[MAX];
 
@@ -161,7 +160,7 @@ int post_eval()
                 push(b + a);
                 break;
             case '-':
-                push(b - 1);
+                push(b - a);
                 break;
             case '*':
                 push(b * a);

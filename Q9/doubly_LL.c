@@ -65,7 +65,6 @@ void insertBeginning(){
     newNode->prev = NULL;
     newNode->next = NULL;
 
-    // considering there is at least one node before trying this operation.
 
     head->prev = newNode;
     newNode->next = head;
@@ -80,7 +79,6 @@ void insertEnd(){
     newNode->prev = NULL;
     newNode->next = NULL;
 
-    // considering there is at least one node before trying this operation.
 
     tail->next = newNode;
     newNode->prev = tail;
@@ -103,7 +101,7 @@ void insertAtPos(int pos){
     }
 
     
-    if(temp->next == NULL){ // if position is last one
+    if(temp->next == NULL){
         temp->next = newNode;
         newNode->prev = temp;
     }
@@ -168,7 +166,7 @@ void delAtPos(int pos){
         pos--;
     }
     
-    if(temp->next == NULL){ // if position is last one
+    if(temp->next == NULL){ 
         delAtEnd();
     }
     else{

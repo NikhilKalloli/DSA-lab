@@ -21,16 +21,18 @@ int main() {
     enqueue(63);
     enqueue(89);
     enqueue(45);
+    display();
     dequeue();
     dequeue();
     dequeue();
+    display();
     enqueue(111);
     enqueue(222);
     enqueue(333);
 
     display();
 
-    free(Queue); // Free dynamically allocated memory
+    free(Queue); 
 
     return 0;
 }
@@ -48,7 +50,7 @@ void enqueue(int val) {
         Queue[rear] = val;
     } else if ((rear + 1) % size == front) {
         printf("Queue is full\n");
-        // dynamically reallocate new one (double the size)
+      
         size *= 2;
         Queue = (int*)realloc(Queue, size * sizeof(int));
         if (Queue == NULL) {

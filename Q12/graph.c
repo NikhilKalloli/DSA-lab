@@ -3,13 +3,11 @@
 
 #define MAX_VERTICES 100
 
-// Structure to represent a node in the adjacency list and the graph
 struct Node {
     int vertex;
     struct Node* next;
 };
 
-// Function to create a new node
 struct Node* createNode(int v) {
     struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
     newNode->vertex = v;
@@ -17,18 +15,15 @@ struct Node* createNode(int v) {
     return newNode;
 }
 
-// Structure to represent a graph
 struct Graph {
     int numVertices;
     struct Node* adjLists[MAX_VERTICES];
 };
 
-// Function to create a graph with a given number of vertices
 struct Graph* createGraph(int vertices) {
     struct Graph* graph = (struct Graph*)malloc(sizeof(struct Graph));
     graph->numVertices = vertices;
 
-    // Initialize each adjacency list as empty
     for (int i = 0; i < vertices; ++i) {
         graph->adjLists[i] = NULL;
     }
@@ -36,20 +31,19 @@ struct Graph* createGraph(int vertices) {
     return graph;
 }
 
-// Function to add an edge to an undirected graph
 void addEdge(struct Graph* graph, int src, int dest) {
-    // Add an edge from src to dest
+
     struct Node* newNode = createNode(dest);
     newNode->next = graph->adjLists[src];
     graph->adjLists[src] = newNode;
 
-    // Since the graph is undirected, add an edge from dest to src as well
+
     newNode = createNode(src);
     newNode->next = graph->adjLists[dest];
     graph->adjLists[dest] = newNode;
 }
 
-// Depth First Search (DFS) recursive function
+
 void DFSUtil(int vertex, struct Graph* graph, int* visited) {
     visited[vertex] = 1;
     printf("%d ", vertex);
@@ -64,7 +58,7 @@ void DFSUtil(int vertex, struct Graph* graph, int* visited) {
     }
 }
 
-// Depth First Search (DFS) function
+
 void DFS(struct Graph* graph, int startVertex) {
     int* visited = (int*)malloc(graph->numVertices * sizeof(int));
     for (int i = 0; i < graph->numVertices; ++i) {
@@ -78,18 +72,18 @@ void DFS(struct Graph* graph, int startVertex) {
     free(visited);
 }
 
-// Breadth First Search (BFS) function
+
 void BFS(struct Graph* graph, int startVertex) {
     int* visited = (int*)malloc(graph->numVertices * sizeof(int));
     for (int i = 0; i < graph->numVertices; ++i) {
         visited[i] = 0;
     }
 
-    // Create a queue for BFS
+
     int queue[graph->numVertices];
     int front = 0, rear = 0;
 
-    // Mark the current node as visited and enqueue it
+
     visited[startVertex] = 1;
     queue[rear++] = startVertex;
 
@@ -100,7 +94,7 @@ void BFS(struct Graph* graph, int startVertex) {
         int currentVertex = queue[front++];
         printf("%d ", currentVertex);
 
-        // Get all adjacent vertices of the dequeued vertex currentVertex
+
         struct Node* temp = graph->adjLists[currentVertex];
         while (temp) {
             int adjVertex = temp->vertex;

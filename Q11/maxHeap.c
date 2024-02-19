@@ -19,7 +19,6 @@ tree_ptr createNode(int value) {
     return newNode;
 }
 
-// Function to insert an item into the max heap
 tree_ptr insert(tree_ptr root, int value) {
     if (root == NULL) {
         return createNode(value);
@@ -33,7 +32,6 @@ tree_ptr insert(tree_ptr root, int value) {
 }
 
 
-// Function to delete the maximum value node from the max heap
 tree_ptr deleteMax(tree_ptr root) {
     if (root == NULL)
         return NULL;
@@ -57,20 +55,17 @@ void displayHeap(tree_ptr root) {
 int main() {
     tree_ptr root = NULL;
 
-    // Inserting elements into the max heap
     root = insert(root, 10);
     root = insert(root, 20);
     root = insert(root, 15);
     root = insert(root, 30);
     root = insert(root, 25);
 
-    // Displaying the max heap
     displayHeap(root);
 
     printf("\nDeleting the maximum element from the heap.\n");
     root = deleteMax(root);
 
-    // Displaying the updated max heap
     printf("\nHeap after deleting the maximum element:\n");
     displayHeap(root);
 

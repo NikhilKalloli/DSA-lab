@@ -31,11 +31,11 @@ int main()
 
 void inToPost()
 {
-    int i, j = 0;
+    int j = 0;
     char symbol;
     char next;
 
-    for (i = 0; i < strlen(infix); i++)
+    for (int i = 0; i < strlen(infix); i++)
     {
         symbol = infix[i];
         if (!space(symbol))
@@ -143,7 +143,7 @@ int isEmpty()
 
 int post_eval()
 {
-    int i, a, b;
+    int a, b;
     for (int i = 0; i < strlen(postfix); i++)
     {
         if (postfix[i] > '0' && postfix[i] < '9')

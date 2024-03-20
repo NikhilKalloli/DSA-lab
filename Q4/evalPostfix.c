@@ -34,11 +34,11 @@ int main()
 
 void inToPost()
 {
-    int i, j = 0;
+    int j = 0;
     char symbol;
     char next;
 
-    for (i = 0; i < strlen(infix); i++)
+    for (int i = 0; i < strlen(infix); i++)
     {
         symbol = infix[i];
         if (!space(symbol))

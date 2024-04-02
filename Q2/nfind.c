@@ -13,8 +13,7 @@ int nfind(char *text, char *pattern)
     {
         if (text[end] == pattern[n])
         {
-            for (i = start, j = 0; j <= n && text[i] == pattern[j]; i++, j++)
-                ;
+            for (i = start, j = 0; j <= n && text[i] == pattern[j]; i++, j++);
             if (j == n + 1)
                 return start;
             return -1;

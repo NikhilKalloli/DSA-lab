@@ -8,6 +8,8 @@ struct node{
 
 struct node *top = NULL;
 
+
+
 void push(int val){
     struct node *newNode;
     newNode = (struct node*)malloc(sizeof(struct node));

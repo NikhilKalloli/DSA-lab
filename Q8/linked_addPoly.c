@@ -1,106 +1,94 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct Node
-{
-    int coeff;
+typedef struct Node {
+    int coef;
     int exp;
     struct Node *next;
 } node;
 
-void push(node **head, int coeff, int exp)
-{
-    node *newNode = (node *)malloc(sizeof(node));
-    newNode->coeff = coeff;
-    newNode->exp = exp;
-    newNode->next = NULL;
-
-    if (*head == NULL)
-    {
-        *head = newNode;
-        return;
-    }
-    node *curr = *head;
-    while (curr->next != NULL)
-    {
-        curr = curr->next;
-    }
-    curr->next = newNode;
+node* create(int coef, int exp) {
+    node* p = (node*)malloc(sizeof(node));
+    p->coef = coef;
+    p->exp = exp;
+    p->next = NULL;
+    return p;
 }
 
-void read(node **p)
-{
-    printf("Enter total number of terms: ");
-    int terms;
-    scanf("%d", &terms);
-
-    for (int i = 0; i < terms; i++)
-    {
-        int coeff, exp;
-        scanf("%d", &coeff);
-        scanf("%d", &exp);
-        push(p, coeff, exp);
+node* push(node *head, int coef, int exp) {
+    node *temp = create(coef, exp);
+    if (head == NULL)
+        return temp;
+    else {
+        temp->next = head;
+        return temp;
     }
 }
 
-void solve(node *p1, node *p2, node **ans)
-{
-    while (p1 != NULL && p2 != NULL)
-    {
-        if (p1->exp > p2->exp)
-        {
-            push(ans, p1->coeff, p1->exp);
-            p1 = p1->next;
-        }
-        else if (p1->exp < p2->exp)
-        {
-            push(ans, p2->coeff, p2->exp);
+node* solve(node* p1, node* p2, node* ans) {
+    while (p1 != NULL && p2 != NULL) {
+        if (p1->exp > p2->exp) {
+            ans = push(ans, p2->coef, p2->exp);
             p2 = p2->next;
         }
-        else
-        {
-            push(ans, (p2->coeff + p1->coeff), p2->exp);
-            p2 = p2->next;
+        else if (p1->exp < p2->exp) {
+            ans = push(ans, p1->coef, p1->exp);
             p1 = p1->next;
+        }
+        else {
+            ans = push(ans, p1->coef + p2->coef, p1->exp);
+            p1 = p1->next; 
+            p2 = p2->next;
         }
     }
-    while (p1 != NULL)
-    {
-        push(ans, p1->coeff, p1->exp);
+    while (p1 != NULL) {
+        ans = push(ans, p1->coef, p1->exp);
         p1 = p1->next;
     }
-    while (p2 != NULL)
-    {
-        push(ans, p2->coeff, p2->exp);
+    while (p2 != NULL) {
+        ans = push(ans, p2->coef, p2->exp);
         p2 = p2->next;
     }
+    return ans;
 }
 
-void display(node *head)
-{
-    node *curr = head;
-    while (curr != NULL)
-    {
-        printf("%dx^%d+", curr->coeff, curr->exp);
-        curr = curr->next;
+node* read(node* p, int n) {
+    printf("Enter coeff and expo");
+    for (int i = 0; i < n; i++) {
+        int coef, exp;
+        scanf("%d%d", &coef, &exp);
+        p = push(p, coef, exp);
+    }
+    return p;
+}
+
+void display(node* p) {
+    node* temp = p;
+    if (temp == NULL)
+        return;
+    
+    while (temp != NULL) {
+        printf("%dx^%d+", temp->coef, temp->exp);
+        temp = temp->next;
     }
     printf("0\n");
 }
 
-int main()
-{
+int main() {
     node *p1 = NULL;
     node *p2 = NULL;
-    node *ans = NULL;
-
-    read(&p1);
-    read(&p2);
+    node* ans = NULL;
+    
+    int n = 3;
+    int m = 3;
+    
+    p1 = read(p1, n);
+    p2 = read(p2, m);
     display(p1);
     display(p2);
-
-    solve(p1, p2, &ans);
+    
+    ans = solve(p1, p2, ans);
     display(ans);
-
-
+    
     return 0;
 }

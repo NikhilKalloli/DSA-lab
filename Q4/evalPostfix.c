@@ -145,7 +145,7 @@ int isEmpty()
 
 int post_eval()
 {
-    int i, a, b;
+    int  a, b;
     for (int i = 0; i < strlen(postfix); i++)
     {
         if (postfix[i] >= '0' && postfix[i] <= '9')

@@ -28,7 +28,7 @@ void postorder(tree_ptr ptr){
     if(ptr){
         postorder(ptr->left_child);
         postorder(ptr->right_child);
-        printf("%d ", ptr->data);
+        printf("%d ", ptr->data);                             
     }
 }
 

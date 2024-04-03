@@ -11,8 +11,8 @@ typedef struct {
 void fastTranspose(Term a[], Term b[]) {
     int numTerms = a[0].value;
     int numCols = a[0].col;
-    int colTerm[numCols];
-    int startingPos[numCols];
+    int arr1[numCols];
+    int arr2[numCols];
 
     b[0].row = a[0].col;
     b[0].col = a[0].row;
@@ -20,22 +20,22 @@ void fastTranspose(Term a[], Term b[]) {
 
     if (numTerms > 0) {
         for (int i = 0; i < numCols; i++) {
-            colTerm[i] = 0;
+            arr1[i] = 0;
         }
 
         for (int i = 1; i <= numTerms; i++) {
-            colTerm[a[i].col]++;
+            arr1[a[i].col]++;
         }
 
-        startingPos[0] = 1;
+        arr2[0] = 1;
 
         for (int i = 1; i < numCols; i++) {
-            startingPos[i] = startingPos[i - 1] + colTerm[i - 1];
+            arr2[i] = arr2[i - 1] + arr1[i - 1];
         }
 
         for (int i = 1; i <= numTerms; i++) {
             int currentCol = a[i].col;
-            int newPosition = startingPos[currentCol]++;
+            int newPosition = arr2[currentCol]++;
             
             b[newPosition].row = a[i].col;
             b[newPosition].col = a[i].row;

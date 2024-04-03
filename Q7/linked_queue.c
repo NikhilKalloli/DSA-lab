@@ -1,35 +1,43 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-struct node{
+typedef struct node
+{
     int data;
     struct node *next;
-};
+} node;
 
-struct node *front=NULL;
-struct node *rear=NULL;
+node *front = NULL;
+node *rear = NULL;
 
-void enqueue(int val){
-    struct node *newNode;
-    newNode = (struct node*)malloc(sizeof(struct node));
+void enqueue(int val)
+{
+    node *newNode;
+    newNode = (node *)malloc(sizeof(node));
     newNode->data = val;
     newNode->next = NULL;
 
-    if(front==NULL && rear==NULL){
-        front=rear=newNode;
+    if (front == NULL && rear == NULL)
+    {
+        front = rear = newNode;
     }
-    else{
+    else
+    {
         rear->next = newNode;
-        rear=newNode;
+        rear = newNode;
     }
 }
 
-int dequeue(){
-    struct node *temp;
-    temp=front;
-    if(front==NULL && rear==NULL){
+int dequeue()
+{
+    node *temp;
+    temp = front;
+    if (front == NULL && rear == NULL)
+    {
         printf("Queue is Empty");
-    }else{
+    }
+    else
+    {
         int del = front->data;
         front = front->next;
         free(temp);
@@ -37,24 +45,28 @@ int dequeue(){
     }
 }
 
-void display(){
-    struct node *temp;
-    if(front==NULL && rear==NULL){
+void display()
+{
+    node *temp;
+    if (front == NULL && rear == NULL)
+    {
         printf("Queue is Empty");
     }
-    else{
+    else
+    {
         printf("Queue is: ");
-        temp=front;
-        while(temp!=NULL){
+        temp = front;
+        while (temp != NULL)
+        {
             printf("%d ", temp->data);
-            temp=temp->next;
+            temp = temp->next;
         }
     }
     printf("\n");
 }
 
-
-int main(){
+int main()
+{
     enqueue(45);
     enqueue(23);
     enqueue(18);

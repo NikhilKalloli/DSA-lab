@@ -11,7 +11,6 @@ int size = 0;
 void enqueue(int val);
 int dequeue();
 void display();
-void peek();
 
 int main() {
     enqueue(3);
@@ -97,10 +96,4 @@ void display() {
     printf("\n");
 }
 
-void peek() {
-    if (front == -1 && rear == -1) {
-        printf("Queue is Empty");
-    } else {
-        printf("%d ", Queue[front]);
-    }
-}
+

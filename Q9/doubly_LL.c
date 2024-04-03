@@ -7,9 +7,9 @@ typedef struct node {
     struct node *prev;
 } node;
 
-struct node *head = NULL;
+ node *head = NULL;
 
-struct node* createDLL(int val) {
+ node* createDLL(int val) {
     node *newNode;
     newNode = (node *)malloc(sizeof(node));
     newNode->data = val;

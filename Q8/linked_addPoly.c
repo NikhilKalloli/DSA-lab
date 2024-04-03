@@ -53,7 +53,7 @@ node* solve(node* p1, node* p2, node* ans) {
 }
 
 node* read(node* p, int n) {
-    printf("Enter coeff and expo");
+    printf("Enter coeff and expo:");
     for (int i = 0; i < n; i++) {
         int coef, exp;
         scanf("%d%d", &coef, &exp);

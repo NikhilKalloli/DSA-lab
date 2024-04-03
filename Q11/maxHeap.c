@@ -1,73 +1,107 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct TreeNode *tree_ptr;
-struct TreeNode {
-    int data;
-    tree_ptr left;
-    tree_ptr right;
-};
+#define max 100
 
-tree_ptr createNode(int value) {
-    tree_ptr newNode = (tree_ptr)malloc(sizeof(*newNode));
-    if (!newNode) {
-        printf("Memory allocation failed.\n");
-        exit(1);
-    }
-    newNode->data = value;
-    newNode->left = newNode->right = NULL;
-    return newNode;
+typedef struct maxheap {
+    int arr[max];
+    int size;
+    int capacity;
+} heap;
+
+int left(int i) {
+    return 2 * i + 1;
 }
 
-tree_ptr insert(tree_ptr root, int value) {
-    if (root == NULL) {
-        return createNode(value);
+int right(int i) {
+    return 2 * i + 2;
+}
+
+int parent(int i) {
+    return (i - 1) / 2;
+}
+
+void swap(int* a, int* b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+void heapify(heap* hp, int i) {
+    int l = left(i);
+    int r = right(i);
+    int greatest = i;
+
+    if (l < hp->size && hp->arr[i] < hp->arr[l]) {
+        greatest = l;
     }
-    if (value <= root->data) {
-        root->left = insert(root->left, value);
+    if (r < hp->size && hp->arr[greatest] < hp->arr[r]) {
+        greatest = r;
+    }
+    if (greatest != i) {
+        swap(&hp->arr[i], &hp->arr[greatest]);
+        heapify(hp, greatest);
+    }
+}
+
+void deletee(heap* hp) {
+    if (hp->size == 1) {
+        hp->size--;
+        printf("\n%d is deleted.\n", hp->arr[0]);
     } else {
-        root->right = insert(root->right, value);
+        swap(&hp->arr[0], &hp->arr[hp->size - 1]);
+        hp->size--;
+        printf("\n%d is deleted.\n", hp->arr[hp->size]);
+        heapify(hp, 0);
     }
-    return root;
 }
 
+void insert(heap* hp, int num) {
+    printf("%d is inserted.\n", num);
+    if (hp->size == hp->capacity)
+        return;
+    hp->size++;
+    hp->arr[hp->size - 1] = num;
 
-tree_ptr deleteMax(tree_ptr root) {
-    if (root == NULL)
-        return NULL;
-    if (root->right == NULL) {
-        tree_ptr temp = root->left;
-        free(root);
-        return temp;
+    for (int i = hp->size - 1; i > 0 && hp->arr[i] > hp->arr[parent(i)];) {
+        swap(&hp->arr[i], &hp->arr[parent(i)]);
+        i = parent(i);
     }
-    root->right = deleteMax(root->right);
-    return root;
 }
 
-void displayHeap(tree_ptr root) {
-    if (root != NULL) {
-        displayHeap(root->right);
-        printf("%d ", root->data);
-        displayHeap(root->left);
+void display(heap* hp) {
+    for (int i = 0; i < hp->size; i++) {
+        printf("%d ", hp->arr[i]);
     }
+    printf("\n");
 }
 
 int main() {
-    tree_ptr root = NULL;
 
-    root = insert(root, 10);
-    root = insert(root, 20);
-    root = insert(root, 15);
-    root = insert(root, 30);
-    root = insert(root, 25);
+    heap* hp = (heap*)malloc(sizeof(heap));
+    hp->capacity = max;
 
-    displayHeap(root);
+    insert(hp, 2);
+    insert(hp, 4);
+    insert(hp, 0);
+    insert(hp, 6);
+    insert(hp, 5);
+    insert(hp, 1);
+    insert(hp, 3);
 
-    printf("\nDeleting the maximum element from the heap.\n");
-    root = deleteMax(root);
+    printf("\n");
+    display(hp);
 
-    printf("\nHeap after deleting the maximum element:\n");
-    displayHeap(root);
+    deletee(hp);
+    display(hp);
+    deletee(hp);
+    display(hp);
+    deletee(hp);
+    display(hp);
+    deletee(hp);
+    display(hp);
+    deletee(hp);
+    display(hp);
 
     return 0;
 }

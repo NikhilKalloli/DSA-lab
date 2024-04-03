@@ -23,6 +23,7 @@ int post_eval();
 int main()
 {
     printf("Enter the infix expression: ");
+    // scanf("%s", infix);
     gets(infix);
 
     inToPost();
@@ -112,7 +113,7 @@ void print()
     printf("\n");
 }
 
-void push(int  val)
+void push(int val)
 {
     if (top == MAX - 1)
     {

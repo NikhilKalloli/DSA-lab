@@ -1,32 +1,36 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-struct node{
+typedef struct node
+{
     int data;
     struct node *next;
-};
+} node;
 
-struct node *top = NULL;
+node *top = NULL;
 
-
-
-void push(int val){
-    struct node *newNode;
-    newNode = (struct node*)malloc(sizeof(struct node));
+void push(int val)
+{
+    node *newNode;
+    newNode = (struct node *)malloc(sizeof(node));
     newNode->data = val;
+    
     newNode->next = top;
     top = newNode;
 }
 
-void display(){
-    struct node *temp;
+void display()
+{
+    node *temp;
     temp = top;
-    if(top==NULL){
+    if (top == NULL)
+    {
         printf("Stack is empty");
     }
-    else{
+    else
+    {
         printf("Stack is: ");
-        while (temp!=NULL)
+        while (temp != NULL)
         {
             printf("%d ", temp->data);
             temp = temp->next;
@@ -35,19 +39,22 @@ void display(){
     }
 }
 
-int pop(){
-    if(top==NULL){
+int pop()
+{
+    if (top == NULL)
+    {
         printf("stack is empty");
     }
-    else{
+    else
+    {
         int num = top->data;
         top = top->next;
         return num;
     }
-
 }
 
-int main(){
+int main()
+{
     push(14);
     push(34);
     push(58);

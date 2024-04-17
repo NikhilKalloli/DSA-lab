@@ -80,6 +80,8 @@ int main() {
 
     heap* hp = (heap*)malloc(sizeof(heap));
     hp->capacity = max;
+    hp->size = 0; 
+
 
     insert(hp, 2);
     insert(hp, 4);
@@ -102,6 +104,8 @@ int main() {
     display(hp);
     deletee(hp);
     display(hp);
+
+    free(hp);
 
     return 0;
 }
